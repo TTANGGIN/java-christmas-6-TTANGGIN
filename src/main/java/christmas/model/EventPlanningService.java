@@ -52,7 +52,7 @@ public class EventPlanningService {
         Order order = Order.from(orderDto.getOrderItems());
         int totalAmount = orderDto.getTotalAmount();
 
-        if (canParticipateEvent(totalAmount)) {
+        if (!canParticipateEvent(totalAmount)) {
             return EventDetailsDto.of(Gift.empty(), Discounts.empty(),BadgeDeterminer.empty());
         }
         Gift gift = getGift(orderDto.getTotalAmount());
