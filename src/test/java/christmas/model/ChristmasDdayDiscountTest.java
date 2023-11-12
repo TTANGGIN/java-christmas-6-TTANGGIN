@@ -7,6 +7,8 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.DayOfWeek;
+
 import static org.assertj.core.api.Assertions.*;
 
 class ChristmasDdayDiscountTest {
@@ -23,14 +25,18 @@ class ChristmasDdayDiscountTest {
             @DisplayName("크리스마스 디데이 할인 객체를 반환한다")
             void it_returns_christmas_dday_discount_object() {
                 // 준비
-                ReservationDay reservationDay = ReservationDay.of(EventConfig.EVENT_YEAR.getValue(), EventConfig.EVENT_MONTH.getValue(), EventConfig.EVENT_DAY.getValue());
+                final int ADDITIONAL_DISCOUNT = 100;
+                int day = 11;
+                ReservationDay reservationDay = ReservationDay.of(EventConfig.EVENT_YEAR.getValue()
+                        , EventConfig.EVENT_MONTH.getValue(), 11);
 
                 // 실행
                 ChristmasDdayDiscount discount = ChristmasDdayDiscount.from(reservationDay);
 
                 // 검증
                 assertThat(discount).isNotNull();
-                assertThat(discount.getDiscountAmount()).isEqualTo(DiscountType.CHRISTMAS_D_DAY.getAmount());
+                assertThat(discount.getDiscountAmount())
+                        .isEqualTo(DiscountType.CHRISTMAS_D_DAY.getAmount() + ADDITIONAL_DISCOUNT * (day - 1));
             }
         }
 
@@ -43,7 +49,8 @@ class ChristmasDdayDiscountTest {
             @DisplayName("IllegalArgumentException을 발생시킨다")
             void it_throws_illegalArgumentException(int day) {
                 // 준비
-                ReservationDay reservationDay = ReservationDay.of(EventConfig.EVENT_YEAR.getValue(), EventConfig.EVENT_MONTH.getValue(), day);
+                ReservationDay reservationDay
+                        = ReservationDay.of(day, DayOfWeek.FRIDAY);
 
                 // 실행 및 검증
                 assertThatThrownBy(() -> ChristmasDdayDiscount.from(reservationDay))
