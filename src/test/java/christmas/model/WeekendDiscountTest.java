@@ -72,4 +72,21 @@ class WeekendDiscountTest {
             }
         }
     }
+
+    @Nested
+    @DisplayName("getDiscountType 메소드는")
+    class Describe_getDiscountType {
+
+        @Test
+        @DisplayName("할인 타입 'WEEKEND'를 반환한다")
+        void it_returns_discount_type_weekend() {
+            ReservationDay reservationDay = ReservationDay.of(2023, 12, 22);
+            Order order = Order.from("양송이수프-1");
+            WeekendDiscount discount = WeekendDiscount.of(reservationDay, order);
+
+            DiscountType discountType = discount.getDiscountType();
+
+            assertThat(discountType).isEqualTo(DiscountType.WEEKEND);
+        }
+    }
 }
