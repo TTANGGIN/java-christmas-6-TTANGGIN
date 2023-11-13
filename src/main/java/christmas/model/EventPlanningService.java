@@ -63,10 +63,7 @@ public class EventPlanningService {
     }
 
     private static boolean canParticipateEvent(int totalAmount) {
-        if (totalAmount >= EventConfig.EVENT_THRESHOLD_AMOUNT.getValue()) {
-            return true;
-        }
-        return false;
+        return totalAmount >= EventConfig.EVENT_THRESHOLD_AMOUNT.getValue();
     }
 
     private static Discounts calculateDiscounts(ReservationDay reservationDay, Order order, Gift gift) {
