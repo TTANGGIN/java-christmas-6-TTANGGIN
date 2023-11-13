@@ -5,6 +5,7 @@ import christmas.config.Menu;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.DayOfWeek;
 import java.util.HashMap;
@@ -94,6 +95,34 @@ class DayBasedDiscountTest {
                 } else {
                     assertThat(discount).isEqualTo(DayBasedDiscount.empty());
                 }
+            }
+        }
+
+        @Nested
+        @DisplayName("할인이 적용되지 않는 주문이 주어졌을 때")
+        class Context_with_no_discount_applicable_date_and_order {
+
+            @ParameterizedTest
+            @ValueSource(ints = {14, 15})
+            @DisplayName("할인이 0원인 객체를 반환한다")
+            void it_returns_empty_object(int day) {
+                // 준비
+                ReservationDay nonDiscountDay = ReservationDay.of(2023, 12, day);
+                Order order = createNonDiscountOrder();
+
+                // 실행
+                DayBasedDiscount discount = DayBasedDiscount.of(nonDiscountDay, order);
+
+                // 검증
+                assertThat(discount).isNotNull();
+                assertThat(discount.getDiscountAmount()).isEqualTo(0);
+            }
+
+            private Order createNonDiscountOrder() {
+                // 주문 항목이 디저트도 메인도 아닌 경우
+                Map<Menu, Integer> orderItems = new HashMap<>();
+                orderItems.put(Menu.CAESAR_SALAD, 2); // 애피타이저 카테고리
+                return Order.from(orderItems);
             }
         }
     }
