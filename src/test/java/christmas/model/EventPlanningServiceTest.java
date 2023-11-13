@@ -3,6 +3,7 @@ package christmas.model;
 import christmas.config.ErrorMessage;
 import christmas.config.Menu;
 import christmas.dto.request.DayInputDto;
+import christmas.dto.request.OrderInputDto;
 import christmas.dto.response.EventDetailsDto;
 import christmas.dto.response.OrderDto;
 import christmas.dto.response.ReservationDayDto;
@@ -77,6 +78,22 @@ class EventPlanningServiceTest {
                         .hasMessageContaining(ErrorMessage.INVALID_DAY_INPUT.getMessage());
             }
         }
+
+        @Nested
+        @DisplayName("유효하지 않은 숫자 형태의 날짜 입력이 주어지면")
+        class Context_with_invalid_numeric_date_input {
+
+            @ParameterizedTest
+            @ValueSource(strings = {"-1", "abc", "12.5"})
+            @DisplayName("IllegalArgumentException을 던진다")
+            void it_throws_IllegalArgumentException(String invalidInput) {
+                DayInputDto dayInputDto = DayInputDto.from(invalidInput);
+
+                assertThatThrownBy(() -> eventPlanningService.createValidReservationDay(dayInputDto))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining(ErrorMessage.INVALID_DAY_INPUT.getMessage());
+            }
+        }
     }
 
     @Nested
@@ -100,6 +117,44 @@ class EventPlanningServiceTest {
                 assertThat(result.getGift()).isEqualTo(Gift.empty().toString());
                 assertThat(result.getTotalDiscountAmount()).isEqualTo(Discounts.empty().getTotalDiscountAmount());
                 assertThat(result.getBadge()).isEqualTo(BadgeDeterminer.empty().toString());
+            }
+        }
+
+        @Nested
+        @DisplayName("createValidOrder 메소드는")
+        class Describe_createValidOrder {
+
+            @Nested
+            @DisplayName("유효한 주문 입력이 주어지면")
+            class Context_with_valid_order_input {
+
+                @Test
+                @DisplayName("올바른 OrderDto를 반환한다")
+                void it_returns_valid_OrderDto() {
+                    OrderInputDto orderInputDto = OrderInputDto.from("티본스테이크-2");
+
+                    OrderDto result = eventPlanningService.createValidOrder(orderInputDto);
+
+                    assertThat(result).isNotNull();
+                    assertThat(result.getOrderItems()).containsKeys(Menu.T_BONE_STEAK);
+                    assertThat(result.getTotalAmount()).isEqualTo(Menu.T_BONE_STEAK.getPrice() * 2);
+                    assertThat(result.getOrderDetails()).contains("티본스테이크 2개");
+                }
+            }
+
+            @Nested
+            @DisplayName("유효하지 않은 주문 입력이 주어지면")
+            class Context_with_invalid_order_input {
+
+                @Test
+                @DisplayName("IllegalArgumentException을 던진다")
+                void it_throws_IllegalArgumentException() {
+                    OrderInputDto orderInputDto = OrderInputDto.from("잘못된입력");
+
+                    assertThatThrownBy(() -> eventPlanningService.createValidOrder(orderInputDto))
+                            .isInstanceOf(IllegalArgumentException.class)
+                            .hasMessageContaining(ErrorMessage.INVALID_ORDER_INPUT.getMessage());
+                }
             }
         }
 
