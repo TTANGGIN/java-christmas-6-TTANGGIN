@@ -19,10 +19,14 @@ class BadgeDeterminerTest {
 
             @ParameterizedTest
             @CsvSource({
-                    "21000, 산타",
-                    "15000, 트리",
-                    "7000, 별",
-                    "4000, 없음"
+                    "200000, 산타",
+                    "20000, 산타",
+                    "19999, 트리",
+                    "10000, 트리",
+                    "9999, 별",
+                    "5000, 별",
+                    "4999, 없음",
+                    "0, 없음"
             })
             @DisplayName("적절한 이벤트 배지를 반환한다")
             void it_returns_correct_event_badge(int totalDiscountAmount, String expectedBadge) {
