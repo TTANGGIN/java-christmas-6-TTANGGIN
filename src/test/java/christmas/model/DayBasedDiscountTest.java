@@ -111,6 +111,24 @@ class DayBasedDiscountTest {
             assertThat(emptyDiscount.getDiscountAmount()).isEqualTo(0);
             assertThat(emptyDiscount.getDiscountType()).isNull();
         }
+
+        @Test
+        @DisplayName("할인 유형이 null인 경우 true를 반환한다")
+        void it_returns_true_for_null_discount_type() {
+            DayBasedDiscount discount = DayBasedDiscount.empty();
+
+            assertThat(discount.isEmpty()).isTrue();
+        }
+
+        @Test
+        @DisplayName("할인 유형이 non-null인 경우 false를 반환한다")
+        void it_returns_false_for_non_null_discount_type() {
+            ReservationDay weekday = ReservationDay.of(2023, 12, 20);
+            Order order = createSampleOrderWithDessert();
+            DayBasedDiscount discount = DayBasedDiscount.of(weekday, order);
+
+            assertThat(discount.isEmpty()).isFalse();
+        }
     }
 
     private int countDessertItems(Order order) {
