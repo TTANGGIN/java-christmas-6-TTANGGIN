@@ -29,7 +29,7 @@ public class DayBasedDiscount implements Discount {
         return new DayBasedDiscount(0, null);
     }
 
-    public boolean isEmpty(DayBasedDiscount dayBasedDiscount) {
+    public boolean isEmpty() {
         return this.discountType == null;
     }
 
