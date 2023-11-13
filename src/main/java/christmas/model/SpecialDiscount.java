@@ -6,7 +6,6 @@ import christmas.config.EventConfig;
 import java.time.DayOfWeek;
 
 public class SpecialDiscount implements Discount {
-
     private static final DayOfWeek SPECIAL_DAY_OF_WEEK = DayOfWeek.SUNDAY;
     private static final int SPECIAL_DAY = EventConfig.EVENT_DAY.getValue();
     private final int discountAmount;

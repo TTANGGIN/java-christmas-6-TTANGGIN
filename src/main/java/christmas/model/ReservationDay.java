@@ -7,7 +7,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class ReservationDay {
-
     private final int day;
     private final DayOfWeek dayOfWeek;
 

@@ -5,7 +5,6 @@ import christmas.config.ErrorMessage;
 import christmas.config.EventConfig;
 
 public class ChristmasDdayDiscount implements Discount {
-
     private static final int ADDITIONAL_DISCOUNT = 100;
     private static final int FIRST_DAY = 1;
     private static final int LAST_DAY = 31;

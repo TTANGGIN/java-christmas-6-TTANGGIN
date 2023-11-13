@@ -4,7 +4,6 @@ import christmas.config.EventMessage;
 import christmas.config.Header;
 
 public class OutputView {
-
     public OutputView() {
     }
 

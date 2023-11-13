@@ -6,7 +6,6 @@ import christmas.config.Menu;
 import java.util.EnumSet;
 
 public class MenuUtils {
-
     private static final EnumSet<Menu> MENU_ITEMS = EnumSet.allOf(Menu.class);
 
     public static boolean menuExists(String menuName) {

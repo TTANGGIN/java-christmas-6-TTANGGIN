@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Discounts {
-
     private static final String EMPTY = "없음";
     private final List<Discount> discounts;
 

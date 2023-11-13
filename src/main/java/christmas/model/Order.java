@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Order {
-
     private static final Pattern ORDER_PATTERN = Pattern.compile("([가-힣]+-[0-9]+)(,[가-힣]+-[0-9]+)*");
     private static final String ITEM_SPLIT_SYMBOL = ",";
     private static final String PARTS_SPLIT_SYMBOL = "-";

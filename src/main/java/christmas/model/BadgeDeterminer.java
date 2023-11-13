@@ -3,7 +3,6 @@ package christmas.model;
 import christmas.config.EventBadge;
 
 public class BadgeDeterminer {
-
     private final String eventBadge;
 
     private BadgeDeterminer(String eventBadge) {
