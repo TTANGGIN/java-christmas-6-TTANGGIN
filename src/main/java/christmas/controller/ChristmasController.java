@@ -29,25 +29,25 @@ public class ChristmasController {
         OrderDto orderDto = retryOnException(this::processOrderInput);
         EventDetailsDto eventDetailsDto = processEventDetails(reservationDayDto, orderDto);
 
-        outputView.printEventBenefitsMessage(reservationDayDto.getDay());
+        outputView.printEventBenefitsMessage(reservationDayDto);
         displayEventDetails(orderDto, eventDetailsDto);
     }
 
     private void displayEventDetails(OrderDto orderDto, EventDetailsDto eventDetailsDto) {
         // 주문 메뉴
-        outputView.printOrderDetails(orderDto.getOrderDetails());
+        outputView.printOrderDetails(orderDto);
         // 할인 전 총주문 금액
-        outputView.printTotalAmountBeforeDiscount(orderDto.getTotalAmount());
+        outputView.printTotalAmountBeforeDiscount(orderDto);
         // 증정 메뉴
-        outputView.printGift(eventDetailsDto.getGift());
+        outputView.printGift(eventDetailsDto);
         // 혜택 내역
-        outputView.printEventDetails(eventDetailsDto.getEventDetails());
+        outputView.printEventDetails(eventDetailsDto);
         // 총혜택 금액
-        outputView.printTotalDiscount(eventDetailsDto.getTotalDiscountAmount());
+        outputView.printTotalDiscount(eventDetailsDto);
         // 할인 후 예상 결제 금액
-        outputView.printTotalAmountAfterDiscount(orderDto.getTotalAmount() - eventDetailsDto.getTotalDiscountAmount());
+        outputView.printTotalAmountAfterDiscount(orderDto, eventDetailsDto);
         // 12월 이벤트 배지
-        outputView.printBadge(eventDetailsDto.getBadge());
+        outputView.printBadge(eventDetailsDto);
     }
 
     private DayInputDto getReservationDayFromView() {

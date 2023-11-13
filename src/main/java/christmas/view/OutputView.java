@@ -2,6 +2,9 @@ package christmas.view;
 
 import christmas.config.EventMessage;
 import christmas.config.Header;
+import christmas.dto.response.EventDetailsDto;
+import christmas.dto.response.OrderDto;
+import christmas.dto.response.ReservationDayDto;
 
 public class OutputView {
     public OutputView() {
@@ -27,35 +30,43 @@ public class OutputView {
         printMessage(EventMessage.ASK_ORDER.getMessage());
     }
 
-    public void printEventBenefitsMessage(int reservationDay) {
+    public void printEventBenefitsMessage(ReservationDayDto reservationDayDto) {
+        int reservationDay = reservationDayDto.getDay();
         printMessage(EventMessage.PREVIEW_EVENT_BENEFITS.getFormattedMessage(reservationDay));
     }
 
-    public void printOrderDetails(String orderDetails) {
+    public void printOrderDetails(OrderDto orderDto) {
+        String orderDetails = orderDto.getOrderDetails();
         printMessage(Header.ORDER.getHeader() + orderDetails);
     }
 
-    public void printTotalAmountBeforeDiscount(int amount) {
-        printMessage(formatCurrencyWithHeader(Header.TOTAL_AMOUNT_BEFORE_DISCOUNT, amount));
+    public void printTotalAmountBeforeDiscount(OrderDto orderDto) {
+        int totalAmount = orderDto.getTotalAmount();
+        printMessage(formatCurrencyWithHeader(Header.TOTAL_AMOUNT_BEFORE_DISCOUNT, totalAmount));
     }
 
-    public void printTotalDiscount(int discountAmount) {
-        printMessage(formatCurrencyWithHeader(Header.TOTAL_DISCOUNT_AMOUNT, (discountAmount * -1)));
+    public void printTotalDiscount(EventDetailsDto eventDetailsDto) {
+        int totalDiscount = eventDetailsDto.getTotalDiscountAmount();
+        printMessage(formatCurrencyWithHeader(Header.TOTAL_DISCOUNT_AMOUNT, (totalDiscount * -1)));
     }
 
-    public void printTotalAmountAfterDiscount(int amount) {
+    public void printTotalAmountAfterDiscount(OrderDto orderDto, EventDetailsDto eventDetailsDto) {
+        int amount = orderDto.getTotalAmount() - eventDetailsDto.getTotalDiscountAmount();
         printMessage(formatCurrencyWithHeader(Header.TOTAL_AMOUNT_AFTER_DISCOUNT, amount));
     }
 
-    public void printGift(String gift) {
+    public void printGift(EventDetailsDto eventDetailsDto) {
+        String gift = eventDetailsDto.getGift();
         printMessage(Header.GIFT.getHeader() + gift);
     }
 
-    public void printEventDetails(String eventDetails) {
+    public void printEventDetails(EventDetailsDto eventDetailsDto) {
+        String eventDetails = eventDetailsDto.getEventDetails();
         printMessage(Header.DISCOUNT_DETAILS.getHeader() + eventDetails);
     }
 
-    public void printBadge(String badge) {
+    public void printBadge(EventDetailsDto eventDetailsDto) {
+        String badge = eventDetailsDto.getBadge();
         printMessage(Header.EVENT_BADGE.getHeader() + badge);
     }
 
@@ -66,7 +77,7 @@ public class OutputView {
     private static String formatCurrencyWithHeader(Header header, int money) {
         return String.format("%s%,d원", header.getHeader(), money);
     }
-    private static void printMessage(Object message) {
+    private static void printMessage(String message) {
         System.out.println(message);
     }
 }
