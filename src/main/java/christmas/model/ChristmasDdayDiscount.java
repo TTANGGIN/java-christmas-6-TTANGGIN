@@ -14,6 +14,13 @@ public class ChristmasDdayDiscount implements Discount {
         this.discountAmount = discountAmount;
     }
 
+    /**
+     * 주어진 예약일을 기준으로 크리스마스 D-day 할인 객체 생성
+     * 할인 적용 여부는 예약일과 크리스마스 D-day의 차이에 따라 결정된다.
+     *
+     * @param reservationDay 할인 계산을 위한 예약일
+     * @return 크리스마스 D-day 할인 객체
+     */
     public static ChristmasDdayDiscount from(ReservationDay reservationDay) {
         int day = reservationDay.getDay();
         validate(day);
