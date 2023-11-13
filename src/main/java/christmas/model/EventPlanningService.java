@@ -72,8 +72,7 @@ public class EventPlanningService {
     private static Discounts calculateDiscounts(ReservationDay reservationDay, Order order, Gift gift) {
         List<Discount> discountList = new ArrayList<>(Arrays.asList(
                 ChristmasDdayDiscount.from(reservationDay),
-                WeekdayDiscount.of(reservationDay, order),
-                WeekendDiscount.of(reservationDay, order),
+                DayBasedDiscount.of(reservationDay, order),
                 SpecialDiscount.from(reservationDay)
         ));
 

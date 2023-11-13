@@ -28,8 +28,7 @@ class DiscountsTest {
 
                 List<Discount> discountList = Arrays.asList(
                         ChristmasDdayDiscount.from(reservationDay),
-                        WeekdayDiscount.of(reservationDay, order),
-                        WeekendDiscount.of(reservationDay, order),
+                        DayBasedDiscount.of(reservationDay, order),
                         SpecialDiscount.from(reservationDay),
                         Gift.of(Menu.CHAMPAGNE, 1)
                 );
@@ -77,8 +76,7 @@ class DiscountsTest {
 
                 List<Discount> discountList = Arrays.asList(
                         ChristmasDdayDiscount.from(reservationDay),
-                        WeekdayDiscount.of(reservationDay, order),
-                        WeekendDiscount.of(reservationDay, order),
+                        DayBasedDiscount.of(reservationDay, order),
                         SpecialDiscount.from(reservationDay),
                         Gift.of(Menu.CHAMPAGNE, 1)
                 );
@@ -110,8 +108,7 @@ class DiscountsTest {
 
                 List<Discount> discountList = Arrays.asList(
                         ChristmasDdayDiscount.from(reservationDay),
-                        WeekdayDiscount.of(reservationDay, order),
-                        WeekendDiscount.of(reservationDay, order),
+                        DayBasedDiscount.of(reservationDay, order),
                         SpecialDiscount.from(reservationDay),
                         Gift.of(Menu.CHAMPAGNE, 1)
                 );
