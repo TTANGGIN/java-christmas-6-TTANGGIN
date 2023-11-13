@@ -10,10 +10,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -30,15 +35,24 @@ class EventPlanningServiceTest {
     @DisplayName("createValidReservationDay 메소드는")
     class Describe_createValidReservationDay {
 
+        // 1부터 31까지의 날짜를 생성하는 메소드
+        static Stream<String> validDayProvider() {
+            return IntStream.rangeClosed(1, 31).mapToObj(String::valueOf);
+        }
+
         @Nested
         @DisplayName("유효한 날짜 입력이 주어지면")
         class Context_with_valid_date_input {
 
-            private final String validDayInput = "15";
+            // 1부터 31까지의 날짜를 생성하는 메소드
+            static Stream<String> validDayProvider() {
+                return IntStream.rangeClosed(1, 31).mapToObj(String::valueOf);
+            }
 
-            @Test
+            @ParameterizedTest
+            @MethodSource("validDayProvider")
             @DisplayName("올바른 ReservationDayDto를 반환한다")
-            void it_returns_valid_ReservationDayDto() {
+            void it_returns_valid_ReservationDayDto(String validDayInput) {
                 DayInputDto dayInputDto = DayInputDto.from(validDayInput);
 
                 ReservationDayDto result = eventPlanningService.createValidReservationDay(dayInputDto);
@@ -52,11 +66,10 @@ class EventPlanningServiceTest {
         @DisplayName("유효하지 않은 날짜 입력이 주어지면")
         class Context_with_invalid_date_input {
 
-            private final String invalidDayInput = "32";
-
-            @Test
+            @ParameterizedTest
+            @ValueSource(strings = {"0", "32"}) // 경계값 분석
             @DisplayName("IllegalArgumentException을 던진다")
-            void it_throws_IllegalArgumentException() {
+            void it_throws_IllegalArgumentException(String invalidDayInput) {
                 DayInputDto dayInputDto = DayInputDto.from(invalidDayInput);
 
                 assertThatThrownBy(() -> eventPlanningService.createValidReservationDay(dayInputDto))
