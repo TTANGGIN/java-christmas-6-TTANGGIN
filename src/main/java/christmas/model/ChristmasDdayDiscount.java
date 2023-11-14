@@ -23,11 +23,11 @@ public class ChristmasDdayDiscount implements Discount {
      */
     public static ChristmasDdayDiscount from(ReservationDay reservationDay) {
         int day = reservationDay.getDay();
-        validate(day);
+        validateDayInRange(day);
         return new ChristmasDdayDiscount(calculateDiscountAmount(day));
     }
 
-    private static void validate(int day) {
+    private static void validateDayInRange(int day) {
         if (day < FIRST_DAY || day > LAST_DAY) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_DAY_INPUT.getMessage());
         }
