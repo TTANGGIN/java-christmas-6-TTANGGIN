@@ -88,13 +88,15 @@ class DayBasedDiscountTest {
                     assertThat(discount.getDiscountAmount())
                             .isEqualTo(DiscountType.WEEKDAY.getAmount() * countDessertItems(order));
                     assertThat(discount.getDiscountType()).isEqualTo(DiscountType.WEEKDAY);
-                } else if (DayBasedDiscount.isWeekend(dayOfWeek)) {
+                    return;
+                }
+                if (DayBasedDiscount.isWeekend(dayOfWeek)) {
                     assertThat(discount.getDiscountAmount())
                             .isEqualTo(DiscountType.WEEKEND.getAmount() * countMainItems(order));
                     assertThat(discount.getDiscountType()).isEqualTo(DiscountType.WEEKEND);
-                } else {
-                    assertThat(discount).isEqualTo(DayBasedDiscount.empty());
+                    return;
                 }
+                assertThat(discount).isEqualTo(DayBasedDiscount.empty());
             }
         }
 
@@ -105,7 +107,7 @@ class DayBasedDiscountTest {
             @ParameterizedTest
             @ValueSource(ints = {14, 15})
             @DisplayName("할인이 0원인 객체를 반환한다")
-            void it_returns_empty_object(int day) {
+            void it_returns_no_discount_object(int day) {
                 // 준비
                 ReservationDay nonDiscountDay = ReservationDay.of(2023, 12, day);
                 Order order = createNonDiscountOrder();
@@ -140,7 +142,11 @@ class DayBasedDiscountTest {
             assertThat(emptyDiscount.getDiscountAmount()).isEqualTo(0);
             assertThat(emptyDiscount.getDiscountType()).isNull();
         }
+    }
 
+    @Nested
+    @DisplayName("isEmpty 메소드는")
+    class Describe_isEmpty {
         @Test
         @DisplayName("할인 유형이 null인 경우 true를 반환한다")
         void it_returns_true_for_null_discount_type() {
